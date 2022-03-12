@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.yaml.snakeyaml.util.ArrayUtils;
 
+import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,7 +35,7 @@ public class PostResource {
     // POST /users/{id}/posts
     // create post for a user
     @PostMapping("/users/{user_id}/post")
-    public Posts createPost(@RequestBody Posts post, @PathVariable int user_id){
+    public Posts createPost(@Valid @RequestBody Posts post, @PathVariable int user_id){
         Posts savedPost = service.save(post, user_id);
         return savedPost;
     }
