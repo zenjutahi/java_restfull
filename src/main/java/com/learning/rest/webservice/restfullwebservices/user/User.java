@@ -21,7 +21,7 @@ public class User {
     @Past(message= "Ensure Birth date is in the Past")
     private Date birthDate;
 
-    public User() {
+    protected User() {
     }
 
     public User(Integer id, String name, Date birthDate) {
