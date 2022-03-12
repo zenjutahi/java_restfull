@@ -19,7 +19,7 @@ public class PostResource {
 
     // Retrieves all posts
     @GetMapping("/posts")
-    public List<Posts> retrieveAllUsers(){
+    public List<Posts> retrieveAllPosts(){
         return service.getPosts();
     }
 
