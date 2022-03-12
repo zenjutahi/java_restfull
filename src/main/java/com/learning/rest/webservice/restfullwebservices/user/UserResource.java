@@ -42,7 +42,7 @@ public class UserResource {
         WebMvcLinkBuilder linkToPosts =
                 linkTo(methodOn(PostResource.class).retrieveUserPosts(id));
         model.add(linkToUsers.withRel("all-users"));
-        model.add(linkToPosts.withRel("user-postsgst"));
+        model.add(linkToPosts.withRel("user-posts"));
         return model;
     }
     // Delete user
