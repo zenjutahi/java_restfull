@@ -1,3 +1,3 @@
-insert into user values(1, sysdate(), 'mimi');
-insert into user values(2, sysdate(), 'wewe');
-insert into user values(3, sysdate(), 'yeye');
+insert into user values(1001, sysdate(), 'mimi');
+insert into user values(1002, sysdate(), 'wewe');
+insert into user values(1003, sysdate(), 'yeye');
