@@ -1,11 +1,18 @@
 package com.learning.rest.webservice.restfullwebservices.user;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 import javax.validation.constraints.Past;
 import javax.validation.constraints.Size;
 import java.util.Date;
 
+
+@Entity
 public class User {
 
+    @Id
+    @GeneratedValue
     private Integer id;
 
     @Size(min=2, message = "name should have at least 2 characters")
@@ -13,6 +20,9 @@ public class User {
 
     @Past(message= "Ensure Birth date is in the Past")
     private Date birthDate;
+
+    public User() {
+    }
 
     public User(Integer id, String name, Date birthDate) {
         this.id = id;
