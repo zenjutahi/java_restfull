@@ -1,11 +1,15 @@
 package com.learning.rest.webservice.restfullwebservices.user;
 
+import com.learning.rest.webservice.restfullwebservices.posts.Posts;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.validation.constraints.Past;
 import javax.validation.constraints.Size;
 import java.util.Date;
+import java.util.List;
 
 
 @Entity
@@ -21,6 +25,9 @@ public class User {
     @Past(message= "Ensure Birth date is in the Past")
     private Date birthDate;
 
+    @OneToMany(mappedBy = "user")
+    private List<Posts> posts;
+
     protected User() {
     }
 
@@ -28,6 +35,14 @@ public class User {
         this.id = id;
         this.name = name;
         this.birthDate = birthDate;
+    }
+
+    public List<Posts> getPosts() {
+        return posts;
+    }
+
+    public void setPosts(List<Posts> posts) {
+        this.posts = posts;
     }
 
     public Integer getId() {
@@ -60,6 +75,7 @@ public class User {
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", birthDate=" + birthDate +
+                ", posts=" + posts +
                 '}';
     }
 }
