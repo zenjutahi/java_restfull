@@ -30,6 +30,13 @@ public class UserResource {
             throw new UserNotFoundException("id-" + id);
         return user;
     }
+    // Delete user
+    @DeleteMapping("/users/{id}")
+    public void deleteUser(@PathVariable int id){
+        User user = service.deleteById(id);
+        if(user==null)
+            throw new UserNotFoundException("id-" + id);
+    }
     // POST
     // input - details of user
     // output - Created and return created user
