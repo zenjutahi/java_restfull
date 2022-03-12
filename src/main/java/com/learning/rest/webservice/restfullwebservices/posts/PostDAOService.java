@@ -5,6 +5,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 
 @Component
@@ -50,6 +51,18 @@ public class PostDAOService {
     public Posts getSinglePost(int user_id, int post_id){
         for(Posts post: posts){
             if((post.getPost_id()==post_id) & (post.getUser_id()==user_id)){
+                return post;
+            }
+        }
+        return null;
+    }
+
+    public  Posts deleteById(int user_id, int post_id){
+        Iterator<Posts> iterator = posts.iterator();
+        while (iterator.hasNext()) {
+            Posts post = iterator.next();
+            if(post.getUser_id()==user_id & post.getPost_id()==post_id){
+                posts.remove(post);
                 return post;
             }
         }

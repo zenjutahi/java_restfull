@@ -46,5 +46,12 @@ public class PostResource {
             throw new UserNotFoundException("user-id-" + user_id);
         return singlePost;
     }
+    // DELETE /users/{id}/posts/{post_id}
+    @DeleteMapping("/users/{user_id}/posts/{post_id}")
+    public void DeleteSinglePost(@PathVariable int user_id, @PathVariable int post_id ){
+        Posts singlePost = service.deleteById(user_id,post_id);
+        if(singlePost == null)
+            throw new UserNotFoundException("user-id-" + user_id);
+    }
 
 }
