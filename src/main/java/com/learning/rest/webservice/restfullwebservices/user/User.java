@@ -1,6 +1,6 @@
 package com.learning.rest.webservice.restfullwebservices.user;
 
-import com.learning.rest.webservice.restfullwebservices.posts.Posts;
+import com.learning.rest.webservice.restfullwebservices.posts.Post;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -26,7 +26,7 @@ public class User {
     private Date birthDate;
 
     @OneToMany(mappedBy = "user")
-    private List<Posts> posts;
+    private List<Post> posts;
 
     protected User() {
     }
@@ -37,11 +37,11 @@ public class User {
         this.birthDate = birthDate;
     }
 
-    public List<Posts> getPosts() {
+    public List<Post> getPosts() {
         return posts;
     }
 
-    public void setPosts(List<Posts> posts) {
+    public void setPosts(List<Post> posts) {
         this.posts = posts;
     }
 
