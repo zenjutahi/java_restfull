@@ -14,6 +14,22 @@ public class Post {
     @GeneratedValue
     private Integer id;
 
+    public Integer getId() {
+        return id;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
     @ManyToOne(fetch= FetchType.LAZY )
     @JsonIgnore
     public User user;

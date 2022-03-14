@@ -2,6 +2,7 @@ package com.learning.rest.webservice.restfullwebservices.user;
 
 import com.learning.rest.webservice.restfullwebservices.posts.Post;
 import com.learning.rest.webservice.restfullwebservices.posts.PostDAOService;
+import com.learning.rest.webservice.restfullwebservices.posts.PostRepository;
 import com.learning.rest.webservice.restfullwebservices.posts.PostResource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.EntityModel;
@@ -21,11 +22,12 @@ import java.util.Optional;
 @RestController
 public class UserJPAResource {
 
-    @Autowired
-    private UserDAOService service;
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private PostRepository postRepository;
 
     //GET /users
     // retrieveAllUsers
@@ -83,5 +85,27 @@ public class UserJPAResource {
         List<Post> userPosts = userOptional.get().getPosts();
         return userPosts;
     }
+
+    // Create post for user
+    @PostMapping("/jpa/users/{id}/posts")
+    public ResponseEntity<Object> createPost(@Valid @PathVariable int id, @RequestBody Post post){
+        Optional<User> userOptional = userRepository.findById(id);
+        if(!userOptional.isPresent()){
+            throw new UserNotFoundException("id-" +id );
+        }
+
+        User user = userOptional.get();
+
+        post.setUser(user);
+
+        postRepository.save(post);
+        // Return Created message and status code
+        URI location = ServletUriComponentsBuilder
+                .fromCurrentRequest()
+                .path("/{id}")
+                .buildAndExpand(post.getId()).toUri();
+        return ResponseEntity.created(location).build();
+    }
+
 
 }
