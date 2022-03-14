@@ -1,5 +1,6 @@
 package com.learning.rest.webservice.restfullwebservices.user;
 
+import com.learning.rest.webservice.restfullwebservices.posts.Post;
 import com.learning.rest.webservice.restfullwebservices.posts.PostDAOService;
 import com.learning.rest.webservice.restfullwebservices.posts.PostResource;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import javax.annotation.Resource;
 import javax.swing.text.html.parser.Entity;
 import javax.validation.Valid;
 import java.net.URI;
@@ -69,4 +71,17 @@ public class UserJPAResource {
                 .buildAndExpand(savedUser.getId()).toUri();
         return ResponseEntity.created(location).build();
     }
+
+    //GET posts for users
+    // retrieveAll posts for a user
+    @GetMapping("/jpa/users/{id}/posts")
+    public List<Post> retrieveAllForUser(@PathVariable int id){
+        Optional<User> userOptional = userRepository.findById(id);
+        if(!userOptional.isPresent()){
+            throw new UserNotFoundException("id-" +id );
+        }
+        List<Post> userPosts = userOptional.get().getPosts();
+        return userPosts;
+    }
+
 }

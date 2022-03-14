@@ -1,5 +1,6 @@
 package com.learning.rest.webservice.restfullwebservices.posts;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.learning.rest.webservice.restfullwebservices.user.User;
 
 import javax.persistence.*;
@@ -14,6 +15,7 @@ public class Post {
     private Integer id;
 
     @ManyToOne(fetch= FetchType.LAZY )
+    @JsonIgnore
     public User user;
 
     // title
