@@ -1,38 +1,34 @@
 package com.learning.rest.webservice.restfullwebservices.usertest;
 
-import com.learning.rest.webservice.restfullwebservices.controller.ItemController;
+import com.learning.rest.webservice.restfullwebservices.posts.PostRepository;
 import com.learning.rest.webservice.restfullwebservices.user.User;
-import com.learning.rest.webservice.restfullwebservices.user.UserDAOService;
 import com.learning.rest.webservice.restfullwebservices.user.UserJPAResource;
+import com.learning.rest.webservice.restfullwebservices.user.UserRepository;
 import com.learning.rest.webservice.restfullwebservices.user.UserResource;
-import org.aspectj.lang.annotation.Before;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.platform.commons.logging.Logger;
-import org.junit.platform.commons.logging.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.json.JacksonTester;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.hateoas.EntityModel;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.RequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
-import java.util.*;
-
+import java.util.Arrays;
+import java.util.Date;
+import java.util.Optional;
 
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 
-@WebMvcTest(UserResource.class)
-public class UserControllerTest {
+@WebMvcTest(UserJPAResource.class)
+public class UserControllerTest2 {
 
     private User user;
 
@@ -41,7 +37,12 @@ public class UserControllerTest {
 
 
     @MockBean
-    private UserDAOService userDAOService;
+    private UserRepository userRepository;
+
+    @MockBean
+    private PostRepository postRepository;
+
+    private JacksonTester<User> jsonUser;
 
     private void setUpUser() {
         user = new User();
@@ -59,14 +60,13 @@ public class UserControllerTest {
     @Test
     public void userListTest() throws Exception {
 
-        // mock userResource
-
-        when(userDAOService.getUsers ()).thenReturn(
-                Arrays.asList(user));
+        when(userRepository.findAll()).thenReturn(
+                Arrays.asList(user)
+        );
 
         // call "/users" format application/json
         RequestBuilder request = MockMvcRequestBuilders
-                .get("/users")
+                .get("/jpa/users")
                 .accept(MediaType.APPLICATION_JSON);
 
         MvcResult mvcResult = mockMvc.perform(request)
@@ -81,7 +81,7 @@ public class UserControllerTest {
 
         // mock userResource
 
-        when(userDAOService.getOne(1)).thenReturn(user);
+        when(userRepository.findById(1001)).thenReturn(Optional.of(user));
 
         // call "/users" format application/json
         RequestBuilder request = MockMvcRequestBuilders
@@ -90,25 +90,13 @@ public class UserControllerTest {
 
         MvcResult mvcResult = mockMvc.perform(request)
                 .andExpect(status().isOk())
-                .andExpect(content().json("{\"name\": \"zenj\"}"))
                 .andDo(MockMvcResultHandlers.print())
                 .andReturn();
     }
-    @Test
-    public void createUserTest() throws Exception {
-        when(userDAOService.save(user)).thenReturn(user);
-
-        // call "/users" format application/json
-        RequestBuilder request = MockMvcRequestBuilders
-                .post("/users")
-                .accept(MediaType.APPLICATION_JSON);
-
-        MvcResult mvcResult = mockMvc.perform(request)
-                .andExpect(status().isCreated())
-                .andExpect(content().json("[{\"name\": \"zenj\"}]"))
-                .andDo(MockMvcResultHandlers.print())
-                .andReturn();
-    }
+//    @Test
+//    public void createUserTest() throws Exception {
+//
+//    }
 
 }
 

@@ -28,7 +28,7 @@ public class User {
     @OneToMany(mappedBy = "user")
     private List<Post> posts;
 
-    protected User() {
+    public User() {
     }
 
     public User(Integer id, String name, Date birthDate) {
