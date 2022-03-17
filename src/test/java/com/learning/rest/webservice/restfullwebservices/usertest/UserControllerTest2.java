@@ -1,6 +1,7 @@
 package com.learning.rest.webservice.restfullwebservices.usertest;
 
 import com.learning.rest.webservice.restfullwebservices.posts.PostRepository;
+import com.learning.rest.webservice.restfullwebservices.support.UserBuilder;
 import com.learning.rest.webservice.restfullwebservices.user.User;
 import com.learning.rest.webservice.restfullwebservices.user.UserJPAResource;
 import com.learning.rest.webservice.restfullwebservices.user.UserRepository;
@@ -32,6 +33,8 @@ public class UserControllerTest2 {
 
     private User user;
 
+//    UserBuilder builder = UserBuilder.user().id(1001);
+
     @Autowired
     private MockMvc mockMvc;
 
@@ -57,8 +60,12 @@ public class UserControllerTest2 {
     }
 
 
+//    User user = builder.birthdate(new Date()).build();
+
     @Test
     public void userListTest() throws Exception {
+
+
 
         when(userRepository.findAll()).thenReturn(
                 Arrays.asList(user)
@@ -85,7 +92,7 @@ public class UserControllerTest2 {
 
         // call "/users" format application/json
         RequestBuilder request = MockMvcRequestBuilders
-                .get("/users/{id}", 1)
+                .get("/users/{id}", 1001)
                 .accept(MediaType.APPLICATION_JSON);
 
         MvcResult mvcResult = mockMvc.perform(request)

@@ -1,6 +1,8 @@
 package com.learning.rest.webservice.restfullwebservices.usertest;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.learning.rest.webservice.restfullwebservices.controller.ItemController;
+//import com.learning.rest.webservice.restfullwebservices.support.UserBuilder;
 import com.learning.rest.webservice.restfullwebservices.user.User;
 import com.learning.rest.webservice.restfullwebservices.user.UserDAOService;
 import com.learning.rest.webservice.restfullwebservices.user.UserJPAResource;
@@ -36,24 +38,37 @@ public class UserControllerTest {
 
     private User user;
 
+//    UserBuilder builder = UserBuilder.user().id(1001);
+
     @Autowired
     private MockMvc mockMvc;
+
+    private ObjectMapper objectMapper;
 
 
     @MockBean
     private UserDAOService userDAOService;
 
-    private void setUpUser() {
-        user = new User();
-        user.setId(1001);
-        user.setName("zenj");
-        user.setBirthDate(new Date());
+//    private void setUpUser() {
+//        user = new User();
+//        user.setId(1001);
+//        user.setName("zenj");
+//        user.setBirthDate(new Date());
+//    }
+    public static String asJsonString(final Object obj) {
+        try {
+            final ObjectMapper mapper = new ObjectMapper();
+            final String jsonContent = mapper.writeValueAsString(obj);
+            return jsonContent;
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
-    @BeforeEach
-    public void setup() {
-            setUpUser();
-    }
+//    @BeforeEach
+//    public void setup() {
+//            setUpUser();
+//    }
 
 
     @Test
@@ -94,21 +109,33 @@ public class UserControllerTest {
                 .andDo(MockMvcResultHandlers.print())
                 .andReturn();
     }
-    @Test
-    public void createUserTest() throws Exception {
-        when(userDAOService.save(user)).thenReturn(user);
-
-        // call "/users" format application/json
-        RequestBuilder request = MockMvcRequestBuilders
-                .post("/users")
-                .accept(MediaType.APPLICATION_JSON);
-
-        MvcResult mvcResult = mockMvc.perform(request)
-                .andExpect(status().isCreated())
-                .andExpect(content().json("[{\"name\": \"zenj\"}]"))
-                .andDo(MockMvcResultHandlers.print())
-                .andReturn();
-    }
+//    @Test
+//    public void createUserTest() throws Exception {
+//        when(userDAOService.save(user)).thenReturn(user);
+//
+//        // call "/users" format application/json
+//        RequestBuilder request = MockMvcRequestBuilders
+//                .post("/users")
+//                .accept(MediaType.APPLICATION_JSON);
+//
+//        MvcResult mvcResult = mockMvc.perform(request)
+//                .andExpect(status().isCreated())
+//                .andExpect(content().json("[{\"name\": \"zenj\"}]"))
+//                .andDo(MockMvcResultHandlers.print())
+//                .andReturn();
+//
+//
+//        builder.birthdate(new Date()).build();
+//
+//        mockMvc.perform( MockMvcRequestBuilders
+//                        .post("/users")
+//                        .content("{\"title\": \"h\",\"body\": \"Try book on Java spring Boot\"\n" +
+//                                "}")
+//                        .contentType(MediaType.APPLICATION_JSON)
+//                        .accept(MediaType.APPLICATION_JSON))
+//                .andExpect(status().isCreated())
+//                .andExpect(MockMvcResultMatchers.jsonPath("$.userId").exists());
+//    }
 
 }
 
